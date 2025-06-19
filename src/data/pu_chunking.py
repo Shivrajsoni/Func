@@ -1,17 +1,20 @@
-from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import OllamaEmbeddings
 from langchain_experimental.text_splitter import SemanticChunker
 import os
 
 # 1 Loading your text first
-with open("src\data\pu_admissions_combined_cleaned.txt", "r", encoding="utf-8") as f:
+with open("src/data/pu_admissions_combined_cleaned.txt", "r", encoding="utf-8") as f:
     text = f.read()
 
 print("Text length :", len(text))
 
-# 2 Initialize HuggingFace embedding wrapper
-embed = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
+# 2 Initialize Ollama embedding wrapper
+embed = OllamaEmbeddings(
+    model="nomic-embed-text:latest",
+    base_url="http://localhost:11434"
+)
 
-# 3 Initialize SemanticChunker with HuggingFace embedding
+# 3 Initialize SemanticChunker with Ollama embedding
 chunker = SemanticChunker(embeddings=embed)
 
 # 4 Perform semantic chunking
